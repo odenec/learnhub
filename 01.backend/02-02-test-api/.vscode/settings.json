@@ -1,0 +1,215 @@
+{
+	// ========== РАБОЧЕЕ ПРОСТРАНСТВО ==========
+	"files.autoSave": "afterDelay",
+	"files.autoSaveDelay": 1000,
+	// "files.exclude": {
+	//   "**/.git": true,
+	//   "**/.svn": true,
+	//   "**/.hg": true,
+	//   "**/CVS": true,
+	//   "**/.DS_Store": true,
+	//   "**/node_modules": true,
+	//   "**/.next": true,
+	//   "**/dist": true,
+	//   "**/build": true
+	// },
+
+	// ========== ТЕКСТОВЫЙ РЕДАКТОР ==========
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": false,
+	"editor.formatOnType": false,
+	"editor.tabSize": 2,
+	"editor.insertSpaces": true,
+	"editor.detectIndentation": false,
+	"editor.rulers": [80, 120],
+	"editor.wordWrap": "off",
+	"editor.minimap.enabled": false,
+	"editor.bracketPairColorization.enabled": true,
+	"editor.guides.bracketPairs": "active",
+	"editor.linkedEditing": true,
+	"editor.smoothScrolling": true,
+	"editor.cursorSmoothCaretAnimation": "on",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+
+	// ========== ESLint ==========
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit",
+		"source.organizeImports": "never" // Отключено, т.к. может конфликтовать с ESLint
+	},
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"vue",
+		"html"
+	],
+	"eslint.codeAction.showDocumentation": {
+		"enable": true
+	},
+	"eslint.format.enable": true,
+	"eslint.lintTask.enable": true,
+	"eslint.probe": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"vue",
+		"html"
+	],
+	"eslint.workingDirectories": [{ "mode": "auto" }],
+	"eslint.run": "onType",
+	"eslint.options": {
+		"overrideConfigFile": "./.eslintrc.json"
+	},
+
+	// ========== PRETTIER ==========
+	"prettier.requireConfig": true,
+	"prettier.useEditorConfig": false,
+	"prettier.withNodeModules": false,
+	"prettier.documentSelectors": [
+		"**/*.{js,jsx,ts,tsx,vue,html,css,scss,less,json,md,mdx,yaml,yml}"
+	],
+
+	// Языковые настройки форматирования
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[html]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[scss]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[less]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.wordWrap": "on"
+	},
+	"[yaml]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[vue]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+
+	// ========== TypeScript ==========
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"typescript.preferences.importModuleSpecifier": "shortest",
+	"typescript.preferences.quoteStyle": "single",
+	"typescript.suggest.autoImports": true,
+	"typescript.suggest.completeFunctionCalls": true,
+	"typescript.suggest.paths": true,
+	"typescript.format.semicolons": "insert",
+	"typescript.inlayHints.parameterNames.enabled": "all",
+	"typescript.inlayHints.variableTypes.enabled": true,
+	"typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+	"typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+	"typescript.inlayHints.enumMemberValues.enabled": true,
+
+	// ========== JavaScript ==========
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"javascript.preferences.importModuleSpecifier": "shortest",
+	"javascript.preferences.quoteStyle": "single",
+	"javascript.suggest.autoImports": true,
+	"javascript.suggest.completeFunctionCalls": true,
+	"javascript.suggest.paths": true,
+	"javascript.format.semicolons": "insert",
+	"javascript.inlayHints.parameterNames.enabled": "all",
+	"javascript.inlayHints.variableTypes.enabled": true,
+	"javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+	"javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+
+	// ========== РАБОТА С ФАЙЛАМИ ==========
+	"explorer.confirmDelete": false,
+	"explorer.confirmDragAndDrop": false,
+	"explorer.compactFolders": false,
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.patterns": {
+		"*.ts": "${capture}.js, ${capture}.d.ts, ${capture}.test.ts, ${capture}.spec.ts",
+		"*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.test.js, ${capture}.spec.js",
+		"*.jsx": "${capture}.js, ${capture}.test.jsx, ${capture}.spec.jsx",
+		"*.tsx": "${capture}.ts, ${capture}.test.tsx, ${capture}.spec.tsx",
+		"package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, .npmrc, .yarnrc, .gitignore, .eslintrc.*, .prettierrc.*, tsconfig.*, jsconfig.*, vite.config.*, webpack.config.*, next.config.*, nuxt.config.*",
+		".eslintrc.json": ".eslintignore, .eslintcache",
+		".prettierrc": ".prettierignore",
+		"tsconfig.json": "tsconfig.*.json",
+		"index.html": "favicon.ico, robots.txt, manifest.json"
+	},
+
+	// ========== ТЕРМИНАЛ ==========
+	"terminal.integrated.fontSize": 14,
+	"terminal.integrated.fontFamily": "'Cascadia Code', 'Consolas', monospace",
+	"terminal.integrated.defaultProfile.windows": "PowerShell",
+	"terminal.integrated.defaultProfile.linux": "bash",
+	"terminal.integrated.defaultProfile.osx": "zsh",
+	"terminal.integrated.cursorBlinking": true,
+	"terminal.integrated.cursorStyle": "line",
+
+	// ========== ГИТ ==========
+	"git.enableSmartCommit": true,
+	"git.confirmSync": false,
+	"git.autofetch": true,
+	"git.openRepositoryInParentFolders": "always",
+	"git.ignoreRebaseWarning": true,
+
+	// ========== ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ==========
+	"workbench.editor.enablePreview": false,
+	"workbench.startupEditor": "none",
+	"workbench.iconTheme": "material-icon-theme",
+	// "workbench.colorTheme": "Default Dark Modern",
+	"breadcrumbs.enabled": true,
+	"problems.decorations.enabled": true,
+
+	// Автодополнение
+	"editor.suggestSelection": "first",
+	"editor.quickSuggestions": {
+		"strings": true
+	},
+	"editor.acceptSuggestionOnEnter": "on",
+	"editor.snippetSuggestions": "top",
+
+	// Импорты
+	"importSorter.generalConfiguration.sortOnBeforeSave": true,
+	"importSorter.importStringConfiguration.trailingComma": "multiLine",
+	"importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimitExceptIfOnlyOne",
+	"importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 80,
+
+	// ========== СПЕЦИФИЧНЫЕ ДЛЯ ТЕХНОЛОГИЙ ==========
+	// Для React
+	"emmet.includeLanguages": {
+		"javascript": "javascriptreact",
+		"typescript": "typescriptreact"
+	},
+	"emmet.triggerExpansionOnTab": true,
+
+	// Для Next.js
+	"typescript.preferences.preferTypeOnlyImports": true,
+
+	// Для Node.js
+	"debug.node.autoAttach": "on",
+
+	// Для тестов
+	"testing.automaticallyOpenPeekView": "never",
+	"testing.followRunningTest": false
+}

@@ -1,0 +1,16 @@
+/node_modules
+/dist
+/.clinic
+/.env
+/src/generated/prisma
+
+/generated/prisma
+/prisma/dev.db
+/prisma/dev.db-jornal
+/generated/prisma
+
+/generated/prisma
+
+/generated/prisma
+
+/generated/prisma
