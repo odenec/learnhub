@@ -1,0 +1,23 @@
+Invoke-WebRequest -Uri "http://localhost:8000/users/register" `
+  -Method POST `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body '{
+    "email": "user@example.com",
+    "password": "secret123",
+    "name": "John Doe"
+  }'
+
+Invoke-WebRequest -Uri "http://localhost:8000/users/login" `
+  -Method POST `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body '{
+    "email": "user@example.com",
+    "password": "secret123"
+  }'
+in cmd
+clinic doctor --autocannon '[ -m POST "/users/register" ]' -- node dist/main.js
+
+clinic bubbleprof --autocannon http://localhost:8000 -- node dist/main.js
+
+
+'file:./prisma/dev.db',
