@@ -1,0 +1,17 @@
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\_2_04_program.Window.resources
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.csproj.GenerateResource.cache
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.AssemblyInfoInputs.cache
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.AssemblyInfo.cs
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.csproj.CoreCompileInputs.cache
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.sourcelink.json
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\bin\Debug\net10.0-windows\2-04-program.exe
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\bin\Debug\net10.0-windows\2-04-program.deps.json
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\bin\Debug\net10.0-windows\2-04-program.runtimeconfig.json
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\bin\Debug\net10.0-windows\2-04-program.dll
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\bin\Debug\net10.0-windows\2-04-program.pdb
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.dll
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\refint\2-04-program.dll
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.pdb
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\2-04-program.genruntimeconfig.cache
+C:\Users\1\Desktop\lerningProgramming\04-university\02-02-technology-of-programing\2-04-program\2-04-program\obj\Debug\net10.0-windows\ref\2-04-program.dll
