@@ -1,0 +1,15 @@
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\bin\Debug\net10.0\01-04-minMax.exe
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\bin\Debug\net10.0\01-04-minMax.deps.json
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\bin\Debug\net10.0\01-04-minMax.runtimeconfig.json
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\bin\Debug\net10.0\01-04-minMax.dll
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\bin\Debug\net10.0\01-04-minMax.pdb
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\01-04-minMax.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\01-04-minMax.AssemblyInfoInputs.cache
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\01-04-minMax.AssemblyInfo.cs
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\01-04-minMax.csproj.CoreCompileInputs.cache
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\01-04-minMax.sourcelink.json
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\01-04-minMax.dll
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\refint\01-04-minMax.dll
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\01-04-minMax.pdb
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\01-04-minMax.genruntimeconfig.cache
+C:\Users\1\Desktop\lerningProgramming\03-algoritm\01-base\01-04-minMax\obj\Debug\net10.0\ref\01-04-minMax.dll
