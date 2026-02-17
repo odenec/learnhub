@@ -10,6 +10,8 @@ import 'reflect-metadata';
 import type { IExeptionFilter } from './errors/exeption.filter.interface';
 import type { IUsersController } from './users/users.controller.interface';
 import { PrismaService } from './database/prisma.service';
+import { AuthMidleware } from './common/auth.midleware';
+import type { IConfigService } from './config/config.service.interface';
 @injectable()
 export class App {
 	app: Express;
@@ -20,13 +22,15 @@ export class App {
 		@inject(TYPES.UserController) private userController: UserController,
 		@inject(TYPES.IExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
-    
+		@inject(TYPES.ConfigService) private configService: IConfigService,
 	) {
 		this.app = express();
 		this.port = 8000;
 	}
 	useMidleware(): void {
 		this.app.use(json());
+		const authMidleware = new AuthMidleware(this.configService.get('SECRET'));
+		this.app.use(authMidleware.execute.bind(authMidleware));
 	}
 	useRoutes(): void {
 		this.app.use('/users', this.userController.router);

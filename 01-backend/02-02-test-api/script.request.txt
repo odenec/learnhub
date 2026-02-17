@@ -14,6 +14,11 @@ Invoke-WebRequest -Uri "http://localhost:8000/users/login" `
     "email": "user@example.com",
     "password": "secret123"
   }'
+
+
+
+Invoke-WebRequest -Uri "http://localhost:8000/users/info" -Headers @{ "Authorization" = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NzEzMzU3MTF9.Lt-EZ9FNtPr0CMB509dF02fCN6HnUg20nU2mvMDeAVE" }
+
 in cmd
 clinic doctor --autocannon '[ -m POST "/users/register" ]' -- node dist/main.js
 

@@ -6,11 +6,12 @@
 		"strictPropertyInitialization": false,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
+		"typeRoots": ["./node_modules/@types", "src/types"],
 		// Environment Settings
 		// See also https://aka.ms/tsconfig/module
 
-		"types": [],
-		"moduleResolution": "bundler",
+		"types": ["node"],
+		"moduleResolution": "node",
 		"target": "ES2023",
 		"esModuleInterop": true,
 		// "ignoreDeprecations": "6.0",
@@ -42,8 +43,8 @@
 		"verbatimModuleSyntax": false,
 		"isolatedModules": true,
 		"noUncheckedSideEffectImports": true,
-		"moduleDetection": "force",
+		// "moduleDetection": "force",
 		"skipLibCheck": true
 	},
-	"include": ["src/**/*"]
+	"include": ["src/**/*", "src/types/**/*"]
 }
