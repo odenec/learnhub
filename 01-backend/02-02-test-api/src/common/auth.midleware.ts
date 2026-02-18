@@ -16,7 +16,7 @@ export class AuthMidleware implements IMidleWare {
 
 		verify(token, this.secret, (err, payload) => {
 			if (err) {
-				return next(err);
+				return next();
 			} else if (payload && typeof payload === 'object' && 'email' in payload) {
 				req.user = payload.email as string;
 			}
