@@ -1,0 +1,31 @@
+{
+  "todos": [
+    { "id": 1, "title": "Выучить React", "completed": false },
+    { "id": 2, "title": "Написать код", "completed": true },
+    { "id": 3, "title": "Сделать таймаут", "completed": false },
+    { "id": 4, "title": "Проверить AbortController", "completed": false },
+    { "id": 5, "title": "Запустить json-server", "completed": true }
+  ],
+  "users": [
+    { "id": 1, "name": "Иван Петров", "email": "ivan@example.com" },
+    { "id": 2, "name": "Мария Сидорова", "email": "maria@example.com" }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "Первый пост",
+      "body": "Содержимое первого поста",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "Второй пост",
+      "body": "Содержимое второго поста",
+      "userId": 2
+    }
+  ],
+  "comments": [
+    { "id": 1, "text": "Отличный пост!", "postId": 1 },
+    { "id": 2, "text": "Спасибо за информацию", "postId": 1 }
+  ]
+}
