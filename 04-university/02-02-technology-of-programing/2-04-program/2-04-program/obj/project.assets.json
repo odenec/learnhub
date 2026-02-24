@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\2-04-program.csproj",
+      "projectUniqueName": "C:\\Users\\1\\Desktop\\learnhub\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\2-04-program.csproj",
       "projectName": "2-04-program",
-      "projectPath": "C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\2-04-program.csproj",
+      "projectPath": "C:\\Users\\1\\Desktop\\learnhub\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\2-04-program.csproj",
       "packagesPath": "C:\\Users\\1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\obj\\",
+      "outputPath": "C:\\Users\\1\\Desktop\\learnhub\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,6 +33,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -51,7 +52,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net10.0-windows7.0": {
@@ -75,7 +76,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.200-preview.0.26103.119/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",
