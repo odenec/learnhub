@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\Window.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:2-04-program\\Window.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8200D389-5CF7-2A64-DCB0-5468B22EDD6D}|2-04-program\\2-04-program.csproj|c:\\users\\1\\desktop\\lerningprogramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\window.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8200D389-5CF7-2A64-DCB0-5468B22EDD6D}|2-04-program\\2-04-program.csproj|solutionrelative:2-04-program\\window.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:2-04-program\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8200D389-5CF7-2A64-DCB0-5468B22EDD6D}|2-04-program\\2-04-program.csproj|c:\\users\\1\\desktop\\lerningprogramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8200D389-5CF7-2A64-DCB0-5468B22EDD6D}|2-04-program\\2-04-program.csproj|solutionrelative:2-04-program\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\Window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:2-04-program\\Window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8200D389-5CF7-2A64-DCB0-5468B22EDD6D}|2-04-program\\2-04-program.csproj|c:\\users\\1\\desktop\\lerningprogramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8200D389-5CF7-2A64-DCB0-5468B22EDD6D}|2-04-program\\2-04-program.csproj|solutionrelative:2-04-program\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|c:\\users\\1\\desktop\\lerningprogramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:2-04-program\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{8200D389-5CF7-2A64-DCB0-5468B22EDD6D}|2-04-program\\2-04-program.csproj|C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{8200D389-5CF7-2A64-DCB0-5468B22EDD6D}|2-04-program\\2-04-program.csproj|solutionrelative:2-04-program\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,18 +30,19 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Window.cs",
               "DocumentMoniker": "C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\Window.cs",
               "RelativeDocumentMoniker": "2-04-program\\Window.cs",
               "ToolTip": "C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\Window.cs",
               "RelativeToolTip": "2-04-program\\Window.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-17T16:16:53.755Z"
+              "WhenOpened": "2026-02-17T16:16:53.755Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\Program.cs",
               "RelativeDocumentMoniker": "2-04-program\\Program.cs",
@@ -58,8 +59,10 @@
               "RelativeDocumentMoniker": "2-04-program\\Window.Designer.cs",
               "ToolTip": "C:\\Users\\1\\Desktop\\lerningProgramming\\04-university\\02-02-technology-of-programing\\2-04-program\\2-04-program\\Window.Designer.cs",
               "RelativeToolTip": "2-04-program\\Window.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-17T16:15:01.033Z"
+              "WhenOpened": "2026-02-17T16:15:01.033Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
