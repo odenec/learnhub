@@ -34,6 +34,7 @@
             propertiesBox = new TextBox();
             btnCopy = new Button();
             btnMove = new Button();
+            btnRename = new Button();
             SuspendLayout();
             // 
             // textBox
@@ -42,7 +43,6 @@
             textBox.Name = "textBox";
             textBox.Size = new Size(523, 23);
             textBox.TabIndex = 0;
-            //textBox.TextChanged += textBox1_TextChanged;
             // 
             // textPath
             // 
@@ -69,7 +69,6 @@
             propertiesBox.ReadOnly = true;
             propertiesBox.Size = new Size(297, 319);
             propertiesBox.TabIndex = 3;
-            //propertiesBox.TextChanged += textBox1_TextChanged_1;
             // 
             // btnCopy
             // 
@@ -89,11 +88,22 @@
             btnMove.Text = "Переместить";
             btnMove.UseVisualStyleBackColor = true;
             // 
+            // btnRename
+            // 
+            btnRename.Location = new Point(691, 157);
+            btnRename.Name = "btnRename";
+            btnRename.Size = new Size(75, 23);
+            btnRename.TabIndex = 6;
+            btnRename.Text = "Переименовать";
+            btnRename.UseVisualStyleBackColor = true;
+            btnRename.Click += btnRename_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnRename);
             Controls.Add(btnMove);
             Controls.Add(btnCopy);
             Controls.Add(propertiesBox);
@@ -114,5 +124,6 @@
         private TextBox propertiesBox;
         private Button btnCopy;
         private Button btnMove;
+        private Button btnRename;
     }
 }

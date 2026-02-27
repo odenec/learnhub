@@ -29,5 +29,20 @@ namespace FileExplorer
 
             File.Move(sourcePath, destinationPath, true);
         }
+        public void RenameFileSystemEntry(string sourcePath, string destinationPath)
+        {
+            if (File.Exists(sourcePath))
+            {
+                File.Move(sourcePath, destinationPath);
+            }
+            else if (Directory.Exists(sourcePath))
+            {
+                Directory.Move(sourcePath, destinationPath);
+            }
+            else
+            {
+                throw new FileNotFoundException("Элемент не найден");
+            }
+        }
     }
 }

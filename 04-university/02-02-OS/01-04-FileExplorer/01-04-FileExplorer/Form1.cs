@@ -9,13 +9,15 @@ namespace _01_04_FileExplorer
     {
         private FileManager _fileManager;
         private string _selectedFilePath;
+        private string _currentPath;
 
         public Form1()
         {
             InitializeComponent();
             _fileManager = new FileManager();
             _selectedFilePath = string.Empty;
-            
+            _currentPath = Environment.CurrentDirectory;
+
             LoadDirectory(Environment.CurrentDirectory);
             textBox.Text = Environment.CurrentDirectory;
 
@@ -25,11 +27,22 @@ namespace _01_04_FileExplorer
             this.listBox.DoubleClick += ListBox_DoubleClick;
             this.btnCopy.Click += BtnCopy_Click;
             this.btnMove.Click += BtnMove_Click;
+            this.btnRename.Click += BtnRename_Click;
         }
 
         private void BtnGo_Click(object sender, EventArgs e)
         {
-            LoadDirectory(textBox.Text);
+            string newPath = textBox.Text;
+
+            if (Directory.Exists(newPath))
+            {
+                LoadDirectory(newPath);
+            }
+            else
+            {
+                MessageBox.Show("Папка не найдена");
+                textBox.Text = _currentPath;  // Возвращаем последний корректный путь
+            }
         }
 
         private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -45,11 +58,13 @@ namespace _01_04_FileExplorer
                     ShowFileProperties(fullPath);
                     btnCopy.Enabled = true;
                     btnMove.Enabled = true;
+                    btnRename.Enabled = true;
                 }
                 else
                 {
                     btnCopy.Enabled = false;
                     btnMove.Enabled = false;
+                    btnRename.Enabled = false;
                     propertiesBox.Clear();
                 }
             }
@@ -79,6 +94,39 @@ namespace _01_04_FileExplorer
         {
             PerformFileOperation(_selectedFilePath, OperationType.Move);
         }
+        private void BtnRename_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_selectedFilePath))
+            {
+                MessageBox.Show("Выберите файл или папку для переименования");
+                return;
+            }
+
+            try
+            {
+
+                string newName = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Введите новое имя:",
+                    "Переименование",
+                    Path.GetFileName(_selectedFilePath),
+                    -1, -1);
+
+                if (!string.IsNullOrEmpty(newName))
+                {
+                    string directory = Path.GetDirectoryName(_selectedFilePath);
+                    string newPath = Path.Combine(directory, newName);
+
+                    _fileManager.RenameFileSystemEntry(_selectedFilePath, newPath);
+
+                    MessageBox.Show("Переименовано успешно!");
+                    LoadDirectory(directory);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message);
+            }
+        }
 
         private void LoadDirectory(string path)
         {
@@ -104,7 +152,7 @@ namespace _01_04_FileExplorer
                     listBox.Items.Add("..");
                 }
 
- 
+
                 foreach (string dir in Directory.GetDirectories(path))
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(dir);
@@ -118,8 +166,10 @@ namespace _01_04_FileExplorer
                 }
 
                 textBox.Text = path;
+                _currentPath = path;
                 _selectedFilePath = string.Empty;
                 btnCopy.Enabled = false;
+                btnRename.Enabled = false;
                 btnMove.Enabled = false;
                 propertiesBox.Clear();
             }
@@ -199,6 +249,11 @@ namespace _01_04_FileExplorer
             {
                 MessageBox.Show("Ошибка: " + ex.Message);
             }
+        }
+
+        private void btnRename_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
