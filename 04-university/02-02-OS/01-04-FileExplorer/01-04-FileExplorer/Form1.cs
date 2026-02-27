@@ -70,20 +70,37 @@ namespace _01_04_FileExplorer
             }
         }
 
-        private void ListBox_DoubleClick(object sender, EventArgs e)
+private void ListBox_DoubleClick(object sender, EventArgs e)
+{
+    if (listBox.SelectedItem != null)
+    {
+        string fileName = listBox.SelectedItem.ToString();
+        
+        if (fileName == "..")
         {
-            if (listBox.SelectedItem != null)
+            string parentPath = Directory.GetParent(textBox.Text)?.FullName;
+            if (parentPath != null)
             {
-                string fileName = listBox.SelectedItem.ToString();
-                string fullPath = Path.Combine(textBox.Text, fileName);
-
-                if (Directory.Exists(fullPath))
-                {
-                    LoadDirectory(fullPath);
-                    textBox.Text = fullPath;
-                }
+                LoadDirectory(parentPath);
+                textBox.Text = parentPath;
             }
+            return;
         }
+        
+        if (fileName.EndsWith("\\"))
+        {
+            fileName = fileName.Substring(0, fileName.Length - 1);
+        }
+        
+        string fullPath = Path.Combine(textBox.Text, fileName);
+
+        if (Directory.Exists(fullPath))
+        {
+            LoadDirectory(fullPath);
+            textBox.Text = fullPath;
+        }
+    }
+}
 
         private void BtnCopy_Click(object sender, EventArgs e)
         {
