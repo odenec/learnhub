@@ -2,7 +2,7 @@ using FileExplorer;
 using System;
 using System.IO;
 using System.Windows.Forms;
-//duble_click срабатывет на каждый item
+using System.Runtime.InteropServices;
 namespace _01_04_FileExplorer
 {
     public partial class Form1 : Form
@@ -18,6 +18,7 @@ namespace _01_04_FileExplorer
             _selectedFilePath = string.Empty;
             _currentPath = Environment.CurrentDirectory;
 
+
             LoadDirectory(Environment.CurrentDirectory);
             textBox.Text = Environment.CurrentDirectory;
 
@@ -28,8 +29,46 @@ namespace _01_04_FileExplorer
             this.btnCopy.Click += BtnCopy_Click;
             this.btnMove.Click += BtnMove_Click;
             this.btnRename.Click += BtnRename_Click;
+            this.btnDiskInfo.Click += BtnDiskInfo_Click;
         }
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern bool GetDiskFreeSpaceEx(
+            string lpDirectoryName,
+            out ulong lpFreeBytesAvailable,
+            out ulong lpTotalNumberOfBytes,
+            out ulong lpTotalNumberOfFreeBytes);
+        private string GetDiskSpaceInfo(string path)
+        {
+            try
+            {
+                string rootPath = Path.GetPathRoot(path);
 
+                ulong freeBytesAvailable;
+                ulong totalBytes;
+                ulong totalFreeBytes;
+
+                if (GetDiskFreeSpaceEx(rootPath, out freeBytesAvailable, out totalBytes, out totalFreeBytes))
+                {
+                    double totalGB = totalBytes / (1024.0 * 1024.0 * 1024.0);
+                    double freeGB = totalFreeBytes / (1024.0 * 1024.0 * 1024.0);
+                    double usedGB = totalGB - freeGB;
+
+                    return $"Диск {rootPath}\r\n" +
+                           $"Всего: {totalGB:F2} ГБ\r\n" +
+                           $"Свободно: {freeGB:F2} ГБ\r\n" +
+                           $"Занято: {usedGB:F2} ГБ\r\n" +
+                           $"Свободно: {((double)totalFreeBytes / totalBytes * 100):F1}%";
+                }
+                else
+                {
+                    return "Не удалось получить информацию о диске";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Ошибка: {ex.Message}";
+            }
+        }
         private void BtnGo_Click(object sender, EventArgs e)
         {
             string newPath = textBox.Text;
@@ -41,21 +80,44 @@ namespace _01_04_FileExplorer
             else
             {
                 MessageBox.Show("Папка не найдена");
-                textBox.Text = _currentPath;  // Возвращаем последний корректный путь
+                textBox.Text = _currentPath;
             }
         }
-
+        private void BtnDiskInfo_Click(object sender, EventArgs e)
+        {
+            string diskInfo = GetDiskSpaceInfo(_currentPath);
+            propertiesBox.Text = diskInfo;
+        }
         private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox.SelectedItem != null)
             {
                 string fileName = listBox.SelectedItem.ToString();
+                if (fileName == "..")
+                {
+                    _selectedFilePath = string.Empty;
+                    btnCopy.Enabled = false;
+                    btnMove.Enabled = false;
+                    btnRename.Enabled = false;
+                    propertiesBox.Clear();
+                    return;
+                }
                 string fullPath = Path.Combine(textBox.Text, fileName);
 
-                if (File.Exists(fullPath))
+                if (File.Exists(fullPath) || Directory.Exists(fullPath))
                 {
                     _selectedFilePath = fullPath;
-                    ShowFileProperties(fullPath);
+
+                    if (File.Exists(fullPath))
+                    {
+                        ShowFileProperties(fullPath);
+                    }
+                    else
+                    {
+                        propertiesBox.Clear();
+                    }
+
+                  
                     btnCopy.Enabled = true;
                     btnMove.Enabled = true;
                     btnRename.Enabled = true;
@@ -122,15 +184,18 @@ private void ListBox_DoubleClick(object sender, EventArgs e)
             try
             {
 
+                string cleanPath = _selectedFilePath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                string currentName = Path.GetFileName(cleanPath);
+
                 string newName = Microsoft.VisualBasic.Interaction.InputBox(
                     "Введите новое имя:",
                     "Переименование",
-                    Path.GetFileName(_selectedFilePath),
+                    currentName,
                     -1, -1);
 
                 if (!string.IsNullOrEmpty(newName))
                 {
-                    string directory = Path.GetDirectoryName(_selectedFilePath);
+                    string directory = Path.GetDirectoryName(cleanPath);
                     string newPath = Path.Combine(directory, newName);
 
                     _fileManager.RenameFileSystemEntry(_selectedFilePath, newPath);
@@ -243,21 +308,40 @@ private void ListBox_DoubleClick(object sender, EventArgs e)
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         string destDir = dialog.SelectedPath;
-                        string fileName = Path.GetFileName(sourcePath);
-                        string destPath = Path.Combine(destDir, fileName);
+                        string itemName = Path.GetFileName(sourcePath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                        string destPath = Path.Combine(destDir, itemName);
 
-                        if (operation == OperationType.Copy)
+                        if (File.Exists(sourcePath))
                         {
-                            _fileManager.CopyFile(sourcePath, destPath);
-                            MessageBox.Show("Файл скопирован!");
+                            
+                            if (operation == OperationType.Copy)
+                            {
+                                _fileManager.CopyFile(sourcePath, destPath);
+                                MessageBox.Show("Файл скопирован!");
+                            }
+                            else
+                            {
+                                _fileManager.MoveFile(sourcePath, destPath);
+                                MessageBox.Show("Файл перемещен!");
+                                LoadDirectory(destDir);
+                                textBox.Text = destDir;
+                            }
                         }
-                        else
+                        else if (Directory.Exists(sourcePath))
                         {
-                            _fileManager.MoveFile(sourcePath, destPath);
-                            MessageBox.Show("Файл перемещен!");
-                            LoadDirectory(destDir);
-                            //LoadDirectory(textBox.Text);
-                            textBox.Text = destDir;
+                            
+                            if (operation == OperationType.Copy)
+                            {
+                                _fileManager.CopyDirectory(sourcePath, destPath);
+                                MessageBox.Show("Папка скопирована!");
+                            }
+                            else
+                            {
+                                _fileManager.MoveDirectory(sourcePath, destPath);
+                                MessageBox.Show("Папка перемещена!");
+                                LoadDirectory(destDir);
+                                textBox.Text = destDir;
+                            }
                         }
                     }
                 }
@@ -268,10 +352,7 @@ private void ListBox_DoubleClick(object sender, EventArgs e)
             }
         }
 
-        private void btnRename_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 
     public enum OperationType
