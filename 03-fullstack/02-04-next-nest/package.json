@@ -1,0 +1,11 @@
+{
+  "name": "fullstack-project",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd 01-backend && npm run start:dev",
+    "frontend": "cd 02-frontend && npm run dev -- -p 3001"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

@@ -1,0 +1,39 @@
+.genDiv {
+  display: flex;
+  flex-direction: column;
+  background-color: cadetblue;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+}
+.divOutput {
+  position: relative;
+}
+.preClass {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  min-width: 50vh;
+  background-color: darkgrey;
+  margin: 0;
+  padding-right: 25px;
+  overflow-x: auto;
+}
+.buttonClose {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.headerClass {
+  flex: 2;
+  background-color: darkgreen;
+}
+.mainClass {
+  flex: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background-color: lightslategray;
+}
