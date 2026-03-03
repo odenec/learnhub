@@ -38,14 +38,14 @@ function App() {
         {results.length > 0 && (
           <>
             <div className={styles.containerStyle}>
-              {results.slice(2).map((result, index) => (
+              {results.map((result, index) => (
                 <div key={index} className={styles.resultItemStyle}>
                   {index + 1}: {result.toFixed(4)}
                 </div>
               ))}
             </div>
             <div>{`start: ${startValue}; end: ${endValue}`}</div>
-            <div>Всего результатов: {results.length - 2}</div>
+            <div>Всего результатов: {results.length}</div>
           </>
         )}
       </div>

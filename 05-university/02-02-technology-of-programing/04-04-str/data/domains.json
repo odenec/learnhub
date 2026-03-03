@@ -1,0 +1,13 @@
+{
+  "domains": [
+    "https://catalog.shop.site.com/products/new_item/book.html",
+    "http://mail.google.com/mail/inbox/",
+    "https://www.amazon.com/products/game",
+    "ftp://files.download.site.com/files/document.txt",
+    "https://shop.example.com/category/page.html",
+    "http://blog.test.com/2024/post.html",
+    "https://store.online.com/items/",
+    "ftp://data.server.com/archive/file.zip",
+    "http://www.books.shop.com/catalog/2024/new/book.html"
+  ]
+}

@@ -1,9 +1,7 @@
 "use client";
 import { useState } from "react";
 import styles from "./page.module.css";
-interface FolderData {
-  path: string;
-}
+
 export default function Home() {
   const [dataPath, setDataPath] = useState<{ path?: string }>({});
   const [loading, setLoading] = useState(false);
