@@ -3,7 +3,7 @@ import { LabFanction } from "./func/labfunc1";
 import styles from "./style/app.module.css";
 
 function App() {
-  const [startValue, setStartValue] = useState("0");
+  const [startValue, setStartValue] = useState("1");
   const [endValue, setEndValue] = useState("10");
   const [results, setResults] = useState<number[]>([]);
   const handleCalculate = () => {
