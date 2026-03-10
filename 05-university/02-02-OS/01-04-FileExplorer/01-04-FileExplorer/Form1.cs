@@ -332,7 +332,7 @@ private void ListBox_DoubleClick(object sender, EventArgs e)
                             
                             if (operation == OperationType.Copy)
                             {
-                                _fileManager.CopyDirectory(sourcePath, destPath);
+                                _fileManager.CopyDirectoryWithWinAPI(sourcePath, destPath);
                                 MessageBox.Show("Папка скопирована!");
                             }
                             else
