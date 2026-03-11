@@ -1,6 +1,6 @@
 {
-  "generated": "2026-03-03T14:37:30.516Z",
-  "count": 9,
+  "generated": "2026-03-11T07:19:23.497Z",
+  "count": 11,
   "results": [
     {
       "original": "https://catalog.shop.site.com/products/new_item/book.html",
@@ -8,7 +8,7 @@
       "levels": 3,
       "folders": 2,
       "transformed": "https://site.com_3_2.ru/products/new_item/book.html",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
     },
     {
       "original": "http://mail.google.com/mail/inbox/",
@@ -16,7 +16,7 @@
       "levels": 2,
       "folders": 2,
       "transformed": "http://google.com_2_2.ru/mail/inbox/",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
     },
     {
       "original": "https://www.amazon.com/products/game",
@@ -24,7 +24,7 @@
       "levels": 1,
       "folders": 2,
       "transformed": "https://amazon.com_1_2.ru/products/game",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
     },
     {
       "original": "ftp://files.download.site.com/files/document.txt",
@@ -32,7 +32,7 @@
       "levels": 3,
       "folders": 1,
       "transformed": "ftp://site.com_3_1.ru/files/document.txt",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
     },
     {
       "original": "https://shop.example.com/category/page.html",
@@ -40,7 +40,7 @@
       "levels": 2,
       "folders": 1,
       "transformed": "https://example.com_2_1.ru/category/page.html",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
     },
     {
       "original": "http://blog.test.com/2024/post.html",
@@ -48,7 +48,7 @@
       "levels": 2,
       "folders": 1,
       "transformed": "http://test.com_2_1.ru/2024/post.html",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
     },
     {
       "original": "https://store.online.com/items/",
@@ -56,7 +56,7 @@
       "levels": 2,
       "folders": 1,
       "transformed": "https://online.com_2_1.ru/items/",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
     },
     {
       "original": "ftp://data.server.com/archive/file.zip",
@@ -64,7 +64,7 @@
       "levels": 2,
       "folders": 1,
       "transformed": "ftp://server.com_2_1.ru/archive/file.zip",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
     },
     {
       "original": "http://www.books.shop.com/catalog/2024/new/book.html",
@@ -72,7 +72,23 @@
       "levels": 2,
       "folders": 3,
       "transformed": "http://shop.com_2_3.ru/catalog/2024/new/book.html",
-      "timestamp": "2026-03-03T14:37:30.516Z"
+      "timestamp": "2026-03-11T07:19:23.496Z"
+    },
+    {
+      "original": "https://123.com",
+      "hostname": "123.com",
+      "levels": 1,
+      "folders": 0,
+      "transformed": "https://123.com_1_0.ru",
+      "timestamp": "2026-03-11T07:19:23.496Z"
+    },
+    {
+      "original": "http://www.boo2ks.shop.com/myfolder/new 111book.html",
+      "hostname": "boo2ks.shop.com",
+      "levels": 2,
+      "folders": 1,
+      "transformed": "http://shop.com_2_1.ru/myfolder/new%20111book.html",
+      "timestamp": "2026-03-11T07:19:23.497Z"
     }
   ]
 }

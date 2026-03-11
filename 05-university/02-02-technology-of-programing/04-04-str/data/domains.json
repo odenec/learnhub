@@ -8,6 +8,8 @@
     "http://blog.test.com/2024/post.html",
     "https://store.online.com/items/",
     "ftp://data.server.com/archive/file.zip",
-    "http://www.books.shop.com/catalog/2024/new/book.html"
+    "http://www.books.shop.com/catalog/2024/new/book.html",
+    "https://123.com",
+    "http://www.boo2ks.shop.com/myfolder/new 111book.html"
   ]
 }

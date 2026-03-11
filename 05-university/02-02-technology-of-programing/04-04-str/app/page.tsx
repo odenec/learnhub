@@ -8,6 +8,8 @@ export default function Home() {
   const [results, setResults] = useState<ProcessedDomain[]>([]);
   const [loading, setLoading] = useState(false);
   const [newUrl, setNewUrl] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const [urlError, setUrlError] = useState("");
 
   const fetchDomains = async () => {
     setLoading(true);
@@ -22,10 +24,26 @@ export default function Home() {
     }
   };
 
-  const addDomain = async () => {
-    if (!newUrl) return;
+  const isValidUrl = (url: string): boolean => {
+    const urlPattern =
+      /^(https?|ftp):\/\/(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}(?:\/[^\s]*)?$/;
+    return urlPattern.test(url) && url.includes(".com");
+  };
 
+  const addDomain = async () => {
+    if (!newUrl) {
+      setUrlError("Введите URL");
+      return;
+    }
+
+    if (!isValidUrl(newUrl)) {
+      setUrlError("Некорректный URL. Допустимы только .com домены");
+      return;
+    }
+
+    setUrlError("");
     setLoading(true);
+
     try {
       await fetch("/api/domain", {
         method: "POST",
@@ -42,6 +60,16 @@ export default function Home() {
     }
   };
 
+  const handleStart = async () => {
+    setShowResults(false);
+    setLoading(true);
+
+    setTimeout(() => {
+      setShowResults(true);
+      setLoading(false);
+    }, 1000);
+  };
+
   useEffect(() => {
     fetchDomains();
   }, []);
@@ -51,13 +79,20 @@ export default function Home() {
       <h1 className={styles.title}>Обработка .com доменов</h1>
 
       <div className={styles.inputGroup}>
-        <input
-          type="text"
-          value={newUrl}
-          onChange={(e) => setNewUrl(e.target.value)}
-          placeholder="https://example.com/page"
-          className={styles.input}
-        />
+        <div className={styles.inputWrapper}>
+          <input
+            type="text"
+            value={newUrl}
+            onChange={(e) => {
+              setNewUrl(e.target.value);
+              setUrlError("");
+            }}
+            placeholder="https://example.com/page"
+            className={`${styles.input} ${urlError ? styles.inputError : ""}`}
+          />
+          {urlError && <div className={styles.errorMessage}>{urlError}</div>}
+        </div>
+
         <button
           onClick={addDomain}
           disabled={loading}
@@ -74,9 +109,19 @@ export default function Home() {
         </button>
       </div>
 
+      <div className={styles.startSection}>
+        <button
+          onClick={handleStart}
+          disabled={loading}
+          className={styles.startButton}
+        >
+          {loading ? "Обработка..." : "Старт"}
+        </button>
+      </div>
+
       {loading && <div className={styles.loading}>Загрузка...</div>}
 
-      {results.length > 0 && (
+      {showResults && results.length > 0 && (
         <>
           <div className={styles.stats}>
             <strong>Всего доменов:</strong> {results.length}
@@ -105,6 +150,12 @@ export default function Home() {
             </table>
           </div>
         </>
+      )}
+
+      {showResults && results.length === 0 && !loading && (
+        <div className={styles.noData}>
+          Нет данных для отображения. Добавьте домены.
+        </div>
       )}
     </div>
   );
