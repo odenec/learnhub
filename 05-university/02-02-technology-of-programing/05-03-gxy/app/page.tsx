@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
-
+import DataViewer from "./components/DataViewer";
 type Result = {
   x: number;
   y: number;
@@ -11,13 +11,22 @@ type Result = {
 
 type Calculation = {
   id: number;
+  xCount: string;
+  xValues: string[];
   yStart: string;
   yEnd: string;
   yStep: string;
-  xValues: string[];
+  yValues: number[];
   results: Result[];
   error: string;
-  isActive: boolean;
+  xCountConfirmed: boolean;
+  xGenerated: boolean;
+  yGenerated: boolean;
+};
+
+type FunctionInfo = {
+  expression: string;
+  variant: number;
 };
 
 export default function Home() {
@@ -26,15 +35,27 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [globalError, setGlobalError] = useState("");
   const [activeTab, setActiveTab] = useState(0);
+  const [functionInfo, setFunctionInfo] = useState<FunctionInfo | null>(null);
+  const [showDataViewer, setShowDataViewer] = useState(false);
+
+  useEffect(() => {
+    const fetchFunctionInfo = async () => {
+      try {
+        const res = await fetch("/api/function-info");
+        const data = await res.json();
+        setFunctionInfo(data);
+      } catch {
+        console.error("Не удалось загрузить информацию о функции");
+      }
+    };
+    fetchFunctionInfo();
+  }, []);
 
   const generateCalculationFields = () => {
     setGlobalError("");
-
     const count = parseInt(calculationCount);
     if (isNaN(count) || count <= 0) {
-      setGlobalError(
-        "Введите корректное количество расчетов (положительное число)",
-      );
+      setGlobalError("Введите положительное число");
       return;
     }
 
@@ -42,22 +63,26 @@ export default function Home() {
     for (let i = 0; i < count; i++) {
       newCalculations.push({
         id: i,
+        xCount: "",
+        xValues: [],
         yStart: "",
         yEnd: "",
         yStep: "",
-        xValues: [],
+        yValues: [],
         results: [],
         error: "",
-        isActive: i === 0,
+        xCountConfirmed: false,
+        xGenerated: false,
+        yGenerated: false,
       });
     }
     setCalculations(newCalculations);
     setActiveTab(0);
   };
 
-  const handleYParamChange = (
+  const handleParamChange = (
     calcId: number,
-    field: keyof Pick<Calculation, "yStart" | "yEnd" | "yStep">,
+    field: keyof Pick<Calculation, "xCount" | "yStart" | "yEnd" | "yStep">,
     value: string,
   ) => {
     setCalculations((prev) =>
@@ -67,7 +92,73 @@ export default function Home() {
     );
   };
 
+  const confirmXCount = (calcId: number) => {
+    const calc = calculations.find((c) => c.id === calcId);
+    if (!calc) return;
+
+    const count = parseInt(calc.xCount);
+    if (isNaN(count) || count <= 0) {
+      setCalculations((prev) =>
+        prev.map((c) =>
+          c.id === calcId ? { ...c, error: "Введите количество x" } : c,
+        ),
+      );
+      return;
+    }
+
+    setCalculations((prev) =>
+      prev.map((c) =>
+        c.id === calcId
+          ? {
+              ...c,
+              xValues: Array(count).fill(""),
+              error: "",
+              xCountConfirmed: true,
+              xGenerated: false,
+            }
+          : c,
+      ),
+    );
+  };
+
+  const validateXValues = (calc: Calculation): string | null => {
+    for (const x of calc.xValues) {
+      const num = parseFloat(x);
+      if (isNaN(num)) {
+        return "Все X должны быть числами";
+      }
+      if (num <= 0) {
+        return "X должен быть > 0";
+      }
+      if (Math.abs(num - 1) < 1e-12) {
+        return "X не может быть равен 1 (lg(1) = 0)";
+      }
+    }
+    return null;
+  };
+
   const generateXFields = (calcId: number) => {
+    const calc = calculations.find((c) => c.id === calcId);
+    if (!calc) return;
+
+    const validationError = validateXValues(calc);
+    if (validationError) {
+      setCalculations((prev) =>
+        prev.map((c) =>
+          c.id === calcId ? { ...c, error: validationError } : c,
+        ),
+      );
+      return;
+    }
+
+    setCalculations((prev) =>
+      prev.map((c) =>
+        c.id === calcId ? { ...c, xGenerated: true, error: "" } : c,
+      ),
+    );
+  };
+
+  const generateYValues = (calcId: number) => {
     const calc = calculations.find((c) => c.id === calcId);
     if (!calc) return;
 
@@ -78,7 +169,7 @@ export default function Home() {
     if (isNaN(start) || isNaN(end) || isNaN(step)) {
       setCalculations((prev) =>
         prev.map((c) =>
-          c.id === calcId ? { ...c, error: "Заполни все поля Y" } : c,
+          c.id === calcId ? { ...c, error: "Заполните y параметры" } : c,
         ),
       );
       return;
@@ -86,32 +177,26 @@ export default function Home() {
 
     if (step <= 0) {
       setCalculations((prev) =>
-        prev.map((c) =>
-          c.id === calcId
-            ? { ...c, error: "Шаг должен быть положительным" }
-            : c,
-        ),
+        prev.map((c) => (c.id === calcId ? { ...c, error: "Шаг > 0" } : c)),
       );
       return;
     }
 
     if (start > end) {
       setCalculations((prev) =>
-        prev.map((c) =>
-          c.id === calcId
-            ? { ...c, error: "y_start не может быть больше y_end" }
-            : c,
-        ),
+        prev.map((c) => (c.id === calcId ? { ...c, error: "start ≤ end" } : c)),
       );
       return;
     }
 
-    const count = Math.floor((end - start) / step) + 1;
+    const yValues: number[] = [];
+    for (let val = start; val <= end + 1e-9; val += step) {
+      yValues.push(Number(val.toFixed(10)));
+    }
+
     setCalculations((prev) =>
       prev.map((c) =>
-        c.id === calcId
-          ? { ...c, xValues: Array(count).fill(""), error: "" }
-          : c,
+        c.id === calcId ? { ...c, yValues, error: "", yGenerated: true } : c,
       ),
     );
   };
@@ -123,6 +208,8 @@ export default function Home() {
           ? {
               ...calc,
               xValues: calc.xValues.map((x, i) => (i === index ? value : x)),
+              error: "",
+              xGenerated: false,
             }
           : calc,
       ),
@@ -133,35 +220,10 @@ export default function Home() {
     setLoading(true);
     setGlobalError("");
 
-    // Подготавливаем данные для отправки
-    const calculationsData = calculations.map((calc) => {
-      const parsedX = calc.xValues.map((v) => parseFloat(v));
-      return {
-        y_start: parseFloat(calc.yStart),
-        y_end: parseFloat(calc.yEnd),
-        y_step: parseFloat(calc.yStep),
-        x_values: parsedX,
-      };
-    });
-
-    // Валидация
-    let hasError = false;
-    calculations.forEach((calc) => {
-      const parsedX = calc.xValues.map((v) => parseFloat(v));
-      if (parsedX.some(isNaN) || parsedX.length === 0) {
-        setCalculations((prev) =>
-          prev.map((c) =>
-            c.id === calc.id ? { ...c, error: "Все x должны быть числами" } : c,
-          ),
-        );
-        hasError = true;
-      }
-    });
-
-    if (hasError) {
-      setLoading(false);
-      return;
-    }
+    const calculationsData = calculations.map((calc) => ({
+      x_values: calc.xValues.map((v) => parseFloat(v)),
+      y_values: calc.yValues,
+    }));
 
     try {
       const res = await fetch("/api/check-function", {
@@ -173,148 +235,235 @@ export default function Home() {
       const data = await res.json();
 
       if (!res.ok) {
-        setGlobalError(data.error || "Ошибка запроса");
+        const errorMessage = data.error || "Ошибка вычисления";
+        if (data.tabIndex !== undefined) {
+          setCalculations((prev) =>
+            prev.map((calc, index) =>
+              index === data.tabIndex ? { ...calc, error: errorMessage } : calc,
+            ),
+          );
+        } else {
+          setGlobalError(errorMessage);
+        }
       } else {
-        // Обновляем результаты для каждого расчета
         setCalculations((prev) =>
-          prev.map((calc, index) => {
-            const responseData = data.data[index];
-            return {
-              ...calc,
-              results: responseData?.results || [], // Берем results из ответа
-              error: "",
-            };
-          }),
+          prev.map((calc, index) => ({
+            ...calc,
+            results: data.data[index]?.results || [],
+            error: "",
+          })),
         );
       }
-    } catch (error) {
-      setGlobalError("Ошибка при отправке запроса");
+    } catch {
+      setGlobalError("Ошибка соединения с сервером");
     }
-
     setLoading(false);
   };
 
-  const handleTabClick = (index: number) => {
-    setActiveTab(index);
+  const isTabComplete = (calc: Calculation) => {
+    return (
+      calc.xGenerated &&
+      calc.yGenerated &&
+      calc.xValues.every((v) => v !== "") &&
+      !calc.error
+    );
   };
 
   const getTabStatus = (calc: Calculation) => {
-    if (calc.results.length > 0) return "✅";
-    if (calc.xValues.length > 0) return "📝";
-    if (calc.yStart && calc.yEnd && calc.yStep) return "⚙️";
-    return "🆕";
+    if (calc.error) return "error";
+    if (isTabComplete(calc)) return "complete";
+    if (calc.xGenerated || calc.yGenerated) return "partial";
+    return "incomplete";
   };
+
+  const getOverallStatus = () => {
+    const total = calculations.length;
+    const completed = calculations.filter(isTabComplete).length;
+    const errors = calculations.filter((c) => c.error).length;
+    const partial = calculations.filter(
+      (c) => !isTabComplete(c) && (c.xGenerated || c.yGenerated) && !c.error,
+    ).length;
+    const incomplete = total - completed - partial - errors;
+
+    return { total, completed, errors, partial, incomplete };
+  };
+
+  const allTabsComplete = calculations.every(isTabComplete);
+  const status = getOverallStatus();
 
   return (
     <main className={styles.main}>
       <div className={styles.container}>
-        <h1 className={styles.title}>🧮 Множественные вычисления G(x,y)</h1>
+        <h1 className={styles.title}>
+          🧮 G(x,y) {functionInfo && `- ${functionInfo.expression}`}
+        </h1>
 
-        <div className={styles.controls}>
-          <label className={styles.label}>
-            Количество расчетов:
-            <input
-              type="number"
-              value={calculationCount}
-              onChange={(e) => setCalculationCount(e.target.value)}
-              className={styles.input}
-              placeholder="3"
-              min="1"
-            />
-          </label>
-          <button onClick={generateCalculationFields} className={styles.button}>
-            СОЗДАТЬ РАСЧЕТЫ
-          </button>
+        <div className={styles.controlsRow}>
+          <div className={styles.controlGroup}>
+            <label className={styles.label}>
+              Расчетов:
+              <input
+                type="number"
+                value={calculationCount}
+                onChange={(e) => setCalculationCount(e.target.value)}
+                className={styles.input}
+                min="1"
+              />
+            </label>
+            <button
+              onClick={generateCalculationFields}
+              className={styles.button}
+            >
+              СОЗДАТЬ
+            </button>
+          </div>
+
+          <div className={styles.controlGroup}>
+            <button
+              onClick={() => setShowDataViewer(!showDataViewer)}
+              className={`${styles.button} ${styles.dataButton}`}
+            >
+              {showDataViewer ? "📂 Скрыть файлы" : "📂 Показать dat-файлы"}
+            </button>
+          </div>
         </div>
 
         {globalError && <p className={styles.error}>❌ {globalError}</p>}
 
+        {showDataViewer && (
+          <DataViewer onClose={() => setShowDataViewer(false)} />
+        )}
+
         {calculations.length > 0 && (
           <>
+            <div className={styles.statusBar}>
+              <span className={styles.statusItem}>
+                ✅ Готово: {status.completed}
+              </span>
+              <span className={styles.statusItem}>
+                ⚠️ Частично: {status.partial}
+              </span>
+              <span className={styles.statusItem}>
+                ❌ Ошибки: {status.errors}
+              </span>
+              <span className={styles.statusItem}>
+                📝 Не заполнено: {status.incomplete}
+              </span>
+            </div>
+
             <div className={styles.tabsContainer}>
               {calculations.map((calc, index) => (
                 <button
-                  key={calc.id}
-                  className={`${styles.tab} ${activeTab === index ? styles.activeTab : ""}`}
-                  onClick={() => handleTabClick(index)}
+                  key={index}
+                  className={`${styles.tab} ${activeTab === index ? styles.activeTab : ""} ${
+                    getTabStatus(calc) === "complete" ? styles.tabComplete : ""
+                  } ${getTabStatus(calc) === "error" ? styles.tabError : ""} ${
+                    getTabStatus(calc) === "partial" ? styles.tabPartial : ""
+                  }`}
+                  onClick={() => setActiveTab(index)}
                 >
-                  <span className={styles.tabIcon}>{getTabStatus(calc)}</span>
-                  Расчет #{index + 1}
+                  #{index + 1}
                 </button>
               ))}
             </div>
 
+            <div className={styles.errorsContainer}>
+              {calculations.map(
+                (calc, idx) =>
+                  activeTab === idx &&
+                  calc.error && (
+                    <p key={calc.id} className={styles.tabError}>
+                      ❌ {calc.error}
+                    </p>
+                  ),
+              )}
+            </div>
+
             <div className={styles.tabContent}>
-              {calculations.map((calc, calcIndex) => (
+              {calculations.map((calc, idx) => (
                 <div
                   key={calc.id}
-                  className={styles.calculationBlock}
-                  style={{
-                    display: activeTab === calcIndex ? "block" : "none",
-                  }}
+                  style={{ display: activeTab === idx ? "block" : "none" }}
                 >
-                  <h3 className={styles.calculationTitle}>
-                    Расчет #{calcIndex + 1}
-                  </h3>
+                  <div className={styles.inputsRow}>
+                    <div className={styles.inputGroup}>
+                      <span className={styles.inputLabel}>X кол-во:</span>
+                      <div className={styles.inputWithButton}>
+                        <input
+                          type="number"
+                          value={calc.xCount}
+                          onChange={(e) =>
+                            handleParamChange(calc.id, "xCount", e.target.value)
+                          }
+                          className={styles.fieldInput}
+                          min="1"
+                        />
+                        <button
+                          onClick={() => confirmXCount(calc.id)}
+                          className={`${styles.fieldButton} ${
+                            calc.xCountConfirmed ? styles.buttonSuccess : ""
+                          }`}
+                        >
+                          {calc.xCountConfirmed ? "✓" : "ДАЛЕЕ"}
+                        </button>
+                      </div>
+                    </div>
 
-                  <div className={styles.controls}>
-                    <label className={styles.label}>
-                      Y_START:
-                      <input
-                        type="number"
-                        value={calc.yStart}
-                        onChange={(e) =>
-                          handleYParamChange(calc.id, "yStart", e.target.value)
-                        }
-                        className={styles.input}
-                        placeholder="0"
-                      />
-                    </label>
-
-                    <label className={styles.label}>
-                      Y_END:
-                      <input
-                        type="number"
-                        value={calc.yEnd}
-                        onChange={(e) =>
-                          handleYParamChange(calc.id, "yEnd", e.target.value)
-                        }
-                        className={styles.input}
-                        placeholder="10"
-                      />
-                    </label>
-
-                    <label className={styles.label}>
-                      Y_STEP:
-                      <input
-                        type="number"
-                        value={calc.yStep}
-                        onChange={(e) =>
-                          handleYParamChange(calc.id, "yStep", e.target.value)
-                        }
-                        className={styles.input}
-                        placeholder="1"
-                      />
-                    </label>
-
-                    <button
-                      onClick={() => generateXFields(calc.id)}
-                      className={styles.button}
-                    >
-                      ЗАДАТЬ Y
-                    </button>
+                    <div className={styles.inputGroup}>
+                      <span className={styles.inputLabel}>Y:</span>
+                      <div className={styles.inputWithButton}>
+                        <input
+                          type="number"
+                          value={calc.yStart}
+                          onChange={(e) =>
+                            handleParamChange(calc.id, "yStart", e.target.value)
+                          }
+                          className={styles.fieldInputSmall}
+                          placeholder="start"
+                        />
+                        <input
+                          type="number"
+                          value={calc.yEnd}
+                          onChange={(e) =>
+                            handleParamChange(calc.id, "yEnd", e.target.value)
+                          }
+                          className={styles.fieldInputSmall}
+                          placeholder="end"
+                        />
+                        <input
+                          type="number"
+                          value={calc.yStep}
+                          onChange={(e) =>
+                            handleParamChange(calc.id, "yStep", e.target.value)
+                          }
+                          className={styles.fieldInputSmall}
+                          placeholder="step"
+                        />
+                        <button
+                          onClick={() => generateYValues(calc.id)}
+                          className={`${styles.fieldButton} ${
+                            calc.yGenerated ? styles.buttonSuccess : ""
+                          }`}
+                        >
+                          {calc.yGenerated ? "✓" : "ЗАДАТЬ"}
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
-                  {calc.error && (
-                    <p className={styles.error}>❌ {calc.error}</p>
-                  )}
-
-                  {calc.xValues.length > 0 && (
+                  {calc.xCountConfirmed && (
                     <div className={styles.xFieldsSection}>
-                      <h4 className={styles.xFieldsTitle}>
-                        Введи {calc.xValues.length} значений x для расчета #
-                        {calcIndex + 1}:
-                      </h4>
+                      <div className={styles.xFieldsHeader}>
+                        <span>X ({calc.xValues.length} шт):</span>
+                        <button
+                          onClick={() => generateXFields(calc.id)}
+                          className={`${styles.fieldButton} ${
+                            calc.xGenerated ? styles.buttonSuccess : ""
+                          }`}
+                        >
+                          {calc.xGenerated ? "✓ ЗАДАТЬ X" : "ЗАДАТЬ X"}
+                        </button>
+                      </div>
                       <div className={styles.xFieldsGrid}>
                         {calc.xValues.map((x, i) => (
                           <input
@@ -325,25 +474,33 @@ export default function Home() {
                               handleXChange(calc.id, i, e.target.value)
                             }
                             placeholder={`x${i + 1}`}
-                            className={styles.xField}
+                            className={`${styles.xField} ${
+                              (x === "" && calc.xGenerated) || calc.error
+                                ? styles.xFieldError
+                                : ""
+                            }`}
                           />
                         ))}
                       </div>
                     </div>
                   )}
 
+                  {calc.yGenerated && (
+                    <p className={styles.info}>
+                      ✓ Y: {calc.yValues.length} значений
+                    </p>
+                  )}
+
                   {calc.results.length > 0 && (
                     <div className={styles.resultsSection}>
-                      <h4 className={styles.resultsTitle}>
-                        Результаты для расчета #{calcIndex + 1}:
-                      </h4>
+                      <h4>Результаты #{idx + 1}:</h4>
                       <div className={styles.tableWrapper}>
                         <table className={styles.table}>
                           <thead>
                             <tr>
                               <th>X</th>
                               <th>Y</th>
-                              <th>Y / LG(X)</th>
+                              <th>{functionInfo?.expression}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -363,16 +520,19 @@ export default function Home() {
               ))}
             </div>
 
-            <div className={styles.globalActions}>
+            <div className={styles.controlsRow}>
               <button
                 onClick={handleSubmitAll}
-                disabled={loading}
-                className={`${styles.button} ${styles.submitButton}`}
+                disabled={loading || !allTabsComplete}
+                className={`${styles.button} ${styles.submitButton} ${
+                  !allTabsComplete ? styles.buttonDisabled : ""
+                }`}
               >
-                {loading
-                  ? "Отправка всех расчетов..."
-                  : "Вычислить все расчеты"}
+                {loading ? "..." : "ВЫЧИСЛИТЬ"}
               </button>
+              {!allTabsComplete && (
+                <p className={styles.hint}>Заполните все вкладки полностью</p>
+              )}
             </div>
           </>
         )}

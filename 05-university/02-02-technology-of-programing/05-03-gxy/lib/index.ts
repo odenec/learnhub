@@ -6,8 +6,8 @@ import { TableFormatter } from "./formatters/tableFormatter";
 import { FileLogger } from "./loggers/fileLogger";
 
 export class FunctionComputer {
-  private variant: number;
-  private functionExpression: string;
+  public variant: number;
+  public functionExpression: string;
   private programName: string;
   private validator: FunctionValidator;
   private calculator: FunctionCalculator;
@@ -42,16 +42,16 @@ export class FunctionComputer {
     let results: ComputeResult[] = [];
 
     try {
-      const y_given = this.validator.validateParams(params);
+      this.validator.validateParams(params);
 
       try {
-        results = this.calculator.computeAll(params, y_given);
+        results = this.calculator.computeAll(params);
       } catch (error) {
         const filename = this.logger.getDataFilename(dataSetNumber);
         errors.push({
           filename,
           x: params.x_values[0],
-          y: y_given[0],
+          y: params.y_values[0],
           error: error instanceof Error ? error.message : "Неизвестная ошибка",
         });
       }
@@ -61,17 +61,22 @@ export class FunctionComputer {
       }
 
       const dataFilename = this.logger.getDataFilename(dataSetNumber);
+
+      this.logger.clearDataFile(dataFilename);
+
       const isEvenVariant = this.variant % 2 === 0;
       const tableContent = this.formatter.formatTable(
         params.x_values,
-        y_given,
+        params.y_values,
         results,
-        isEvenVariant,
       );
 
+      const functionHeader = `G(x,y) = ${this.functionExpression}`;
+
       const dataContent = [
-        `Функция: ${this.functionExpression}`,
-        `Количество точек: x=${params.x_values.length}, y=${y_given.length}`,
+        functionHeader,
+        `Количество точек: x=${params.x_values.length}, y=${params.y_values.length}`,
+        `Вариант: ${this.variant} (${isEvenVariant ? "четный" : "нечетный"})`,
         "",
         tableContent,
         "",

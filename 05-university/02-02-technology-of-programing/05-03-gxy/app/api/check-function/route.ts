@@ -2,10 +2,8 @@ import { NextResponse } from "next/server";
 import { FunctionComputer } from "@/lib";
 
 type CalculationInput = {
-  y_start: number;
-  y_end: number;
-  y_step: number;
   x_values: number[];
+  y_values: number[];
 };
 
 const computer = new FunctionComputer(16, "y / lg(x)");
@@ -36,13 +34,6 @@ export async function POST(req: Request) {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Неизвестная ошибка";
-    return NextResponse.json(
-      {
-        error: message,
-      },
-      {
-        status: 400,
-      },
-    );
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }

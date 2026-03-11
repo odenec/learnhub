@@ -5,7 +5,6 @@ export class TableFormatter {
     x_values: number[],
     y_values: number[],
     results: ComputeResult[],
-    isEvenVariant: boolean,
   ): string {
     const resultMap = new Map();
     results.forEach((r) => {
@@ -14,35 +13,44 @@ export class TableFormatter {
 
     const lines: string[] = [];
 
-    if (isEvenVariant) {
-      const header = ["y\\x", ...x_values.map((x) => x.toFixed(3))].join("\t");
-      lines.push(header);
+    let maxWidth = 8;
 
-      y_values.forEach((y) => {
-        const row = [
-          y.toFixed(3),
-          ...x_values.map((x) => {
-            const result = resultMap.get(`${x},${y}`);
-            return result !== undefined ? result.toFixed(6) : "N/A";
-          }),
-        ];
-        lines.push(row.join("\t"));
-      });
-    } else {
-      const header = ["x\\y", ...y_values.map((y) => y.toFixed(3))].join("\t");
-      lines.push(header);
+    x_values.forEach((x) => {
+      const xStr = x.toFixed(3);
+      if (xStr.length > maxWidth) maxWidth = xStr.length;
+    });
 
-      x_values.forEach((x) => {
-        const row = [
-          x.toFixed(3),
-          ...y_values.map((y) => {
-            const result = resultMap.get(`${x},${y}`);
-            return result !== undefined ? result.toFixed(6) : "N/A";
-          }),
-        ];
-        lines.push(row.join("\t"));
-      });
-    }
+    y_values.forEach((y) => {
+      const yStr = y.toFixed(3);
+      if (yStr.length > maxWidth) maxWidth = yStr.length;
+    });
+
+    results.forEach((r) => {
+      const rStr = r.result.toFixed(6);
+      if (rStr.length > maxWidth) maxWidth = rStr.length;
+    });
+
+    maxWidth += 2;
+
+    const formatX = (x: number) => x.toFixed(3).padStart(maxWidth);
+    const formatY = (y: number) => y.toFixed(3).padEnd(maxWidth);
+    const formatResult = (r: number) => r.toFixed(6).padStart(maxWidth);
+
+    const headerX = x_values.map(formatX).join("");
+    lines.push("y\\x".padEnd(maxWidth) + headerX);
+
+    y_values.forEach((y) => {
+      const yStr = formatY(y);
+      const row = x_values
+        .map((x) => {
+          const result = resultMap.get(`${x},${y}`);
+          return result !== undefined
+            ? formatResult(result)
+            : "N/A".padStart(maxWidth);
+        })
+        .join("");
+      lines.push(yStr + row);
+    });
 
     return lines.join("\n");
   }

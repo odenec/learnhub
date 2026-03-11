@@ -1,12 +1,18 @@
 export type ComputeParams = {
-  y_start: number;
-  y_end: number;
-  y_step: number;
   x_values: number[];
+  y_values: number[];
 };
 
 export type ComputeResult = {
   x: number;
   y: number;
   result: number;
+};
+export type GridData = {
+  x_values: number[];
+  y_values: number[];
+  matrix: number[][];
+  functionExpression: string;
+  variant: number;
+  dataFile: string;
 };

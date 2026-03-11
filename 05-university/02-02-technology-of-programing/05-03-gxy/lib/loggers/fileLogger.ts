@@ -17,7 +17,13 @@ export class FileLogger {
   }
 
   private initDirectories() {
-    if (!fs.existsSync(this.outputDir)) {
+    if (fs.existsSync(this.outputDir)) {
+      // Очищаем папку output при инициализации
+      const files = fs.readdirSync(this.outputDir);
+      for (const file of files) {
+        fs.unlinkSync(path.join(this.outputDir, file));
+      }
+    } else {
       fs.mkdirSync(this.outputDir, { recursive: true });
     }
   }
@@ -70,5 +76,12 @@ export class FileLogger {
 
   getDataFilename(number: number): string {
     return `G${number.toString().padStart(4, "0")}.dat`;
+  }
+
+  clearDataFile(filename: string) {
+    const filePath = path.join(this.outputDir, filename);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
   }
 }
